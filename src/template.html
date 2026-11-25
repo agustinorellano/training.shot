@@ -51,7 +51,7 @@ h2{font-size:20px;margin:0 0 8px;letter-spacing:-.01em}
 .pills{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}.pills span{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--bg);color:var(--mute)}
 .acc{border-top:1px solid var(--line);padding:2px 0}.acc summary{cursor:pointer;font-weight:600;font-size:14px;padding:10px 0;list-style:none;display:flex;justify-content:space-between}
 .acc summary::-webkit-details-marker{display:none}.acc summary::after{content:"+";color:var(--mute);font-weight:400;font-size:18px}.acc[open] summary::after{content:"–"}
-.acc ol,.acc ul{margin:0 0 10px;padding-left:20px;font-size:14px}.acc li{margin:4px 0}.acc p{margin:0 0 8px;font-size:14px}
+.acc h4{margin:12px 0 4px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}.acc ol,.acc ul{margin:0 0 10px;padding-left:20px;font-size:14px}.acc li{margin:4px 0}.acc p{margin:0 0 8px;font-size:14px}
 .th{position:fixed;top:12px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--ink);font-size:18px;cursor:pointer;z-index:10}
 .inp{display:flex;gap:8px;margin:10px 0}
 .inp label{flex:1;font-size:12px;color:var(--mute)}
@@ -230,9 +230,7 @@ const INFO={
 function info(id){const i=INFO[id];if(!i)return "";
  const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join("");
  return `<p class="meta" style="margin:6px 0"><b>Trabaja:</b> ${esc(i.m)}</p><div class="pills"><span>Ritmo: ${esc(i.t)}</span><span>${esc(i.r)}</span></div>
- <details class="acc"><summary>Cómo se hace</summary><ol>${li(i.p)}</ol></details>
- <details class="acc"><summary>Errores comunes</summary><ul>${li(i.e)}</ul></details>
- <details class="acc"><summary>Tu espalda y alternativa</summary><p>${esc(i.l)}</p><p>${esc(i.f)}</p></details>`}
+ <details class="acc"><summary>Ver técnica completa</summary><h4>Paso a paso</h4><ol>${li(i.p)}</ol><h4>Evitá</h4><ul>${li(i.e)}</ul><h4>Tu espalda</h4><p>${esc(i.l)} ${esc(i.f)}</p></details>`}
 const GROUP={pecho:'Pecho',hombros:'Hombros',piernas:'Piernas',brazos:'Brazos',espalda:'Espalda',core:'Core'};
 const CORE=[['plank','dead_bug'],['side','bird','pallof']];
 const PLAN3=[
