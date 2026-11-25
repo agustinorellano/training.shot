@@ -13,6 +13,7 @@ main{max-width:640px;margin:0 auto;padding:18px 14px}
 h1{font-size:36px;font-weight:700;letter-spacing:-.035em;margin:34px 4px 4px}
 h2{font-size:20px;margin:0 0 8px;letter-spacing:-.01em}
 .sub{color:var(--mute);margin:0 4px 20px;font-size:15px}
+.hi{margin:30px 4px 0;font-size:17px;font-weight:600;color:var(--acc)}.hi+h1{margin-top:2px}
 .card{background:var(--card);border-radius:var(--r);padding:18px;margin:0 0 12px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
@@ -362,7 +363,7 @@ function card(id){
 function viewHoy(){
  const p=S.p,plan=getPlan(),di=p.d%plan.length,ids=buildDay(),day=plan[di],n=ids.filter(loggedToday).length;
  const open=[...document.querySelectorAll('details.ex[open]')].map(d=>d.dataset.id);
- let h=`<h1>Rutina de hoy</h1><p class="sub">${esc(day.n)} · ${ids.length} ejercicios</p>
+ let h=`<p class="hi">Hola Agustín</p><h1>Rutina de hoy</h1><p class="sub">${esc(day.n)} · ${ids.length} ejercicios</p>
  <div class="chips">${plan.map((d,i)=>`<button class="chip ${i===di?'on':''}" data-day="${i}">Día ${'ABCD'[i]}</button>`).join('')}${p.extra?'':'<button class="chip" data-addextra="1">＋ 4º día</button>'}<button class="chip" data-var="1">↻ Variar</button></div>`;
  if(di===3)h+=`<div class="banner info"><b>Día extra de refuerzo.</b> Hacelo solo si venís sin dolor y con 48 h de descanso respecto de tus días de hombros y piernas.</div>`;
  if(p.pain>=7)h+=`<div class="banner bad"><b>Dolor alto (${p.pain}/10).</b> Hoy conviene descansar y consultar con tu médico/kinesiólogo si persiste. Dejé solo core suave.</div>`;
