@@ -52,6 +52,14 @@ h2{font-size:20px;margin:0 0 8px;letter-spacing:-.01em}
 .acc{border-top:1px solid var(--line);padding:2px 0}.acc summary{cursor:pointer;font-weight:600;font-size:14px;padding:10px 0;list-style:none;display:flex;justify-content:space-between}
 .acc summary::-webkit-details-marker{display:none}.acc summary::after{content:"+";color:var(--mute);font-weight:400;font-size:18px}.acc[open] summary::after{content:"–"}
 .acc h4{margin:12px 0 4px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}.acc ol,.acc ul{margin:0 0 10px;padding-left:20px;font-size:14px}.acc li{margin:4px 0}.acc p{margin:0 0 8px;font-size:14px}
+.cw{margin:8px 0 10px}.cn{display:flex;gap:6px;overflow-x:auto;margin-bottom:8px;scrollbar-width:none}
+.cn button{border:0;background:var(--bg);color:var(--mute);padding:7px 13px;border-radius:999px;font:inherit;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}.cn button.on{background:var(--acc);color:#fff}
+.car{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}.car::-webkit-scrollbar{display:none}
+.sl{flex:0 0 100%;min-width:0;scroll-snap-align:start;background:var(--bg);border-radius:18px;padding:14px;font-size:14px}
+.sl h4{margin:0 0 6px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--mute)}
+.sl ol,.sl ul{margin:0;padding-left:20px}.sl li{margin:5px 0}.sl p{margin:0 0 8px}
+.fig{display:flex;gap:18px;justify-content:center}.fg{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--mute)}
+.leg{display:flex;gap:6px;align-items:center;justify-content:center;font-size:12px;color:var(--mute);margin:4px 0 8px!important}.dot{width:10px;height:10px;border-radius:50%;background:var(--acc);display:inline-block}.dot.s{background:var(--acc);opacity:.45;margin-left:8px}
 .th{position:fixed;top:12px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--nav);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--ink);font-size:18px;cursor:pointer;z-index:10}
 .inp{display:flex;gap:8px;margin:10px 0}
 .inp label{flex:1;font-size:12px;color:var(--mute)}
@@ -227,10 +235,44 @@ const INFO={
   e:["Dejar que el torso gire.","Inclinarte hacia la polea.","Usar mucho peso."],
   l:"Pies al ancho de hombros y abdomen firme.",f:"Si molesta: bajá el peso."}
 };
+const ZONES={
+ inc_db:[['chest'],['delt','tri']],db_bench:[['chest'],['delt','tri']],chest_m:[['chest'],['delt','tri']],cable_press:[['chest'],['delt','tri','abs']],butterfly:[['chest'],['delt']],
+ sh_db:[['delt'],['tri','trap']],sh_m:[['delt'],['tri']],lat_r:[['delt'],[]],rear_m:[['rdelt'],['upb','trap']],face_pull:[['rdelt'],['upb','trap']],
+ lat:[['lat'],['bic','upb']],row:[['upb'],['lat','bic','rdelt']],
+ leg_press:[['quad'],['glute','ham']],bw_squat:[['quad'],['glute','ham']],leg_curl:[['ham'],[]],leg_ext:[['quad'],[]],glute:[['glute'],['ham']],calf:[['calf'],[]],
+ curl_db:[['bic'],['fore']],hammer:[['bic'],['fore']],preacher:[['bic'],[]],tri_rope:[['tri'],[]],tri_lying:[['tri'],[]],
+ plank:[['abs'],['obl','delt']],side:[['obl'],['abs','glute']],dead_bug:[['abs'],['obl']],bird:[['lowb'],['glute']],pallof:[['obl'],['abs']]
+};
+function figure(P,S){
+ const Z=(z,s)=>{const p=P.includes(z),q=S.includes(z);return s.replace('/>',` fill="${p||q?'var(--acc)':'var(--mute)'}" fill-opacity="${p?1:q?.45:.22}"/>`)};
+ const B=s=>s.replace('/>',' fill="var(--mute)" fill-opacity=".22"/>');
+ const head=B('<circle cx="60" cy="20" r="13"/>')+B('<rect x="54" y="32" width="12" height="9" rx="4"/>');
+ const arms=(z,y,h)=>Z(z,`<rect x="16" y="62" width="13" height="34" rx="6"/>`)+Z(z,`<rect x="91" y="62" width="13" height="34" rx="6"/>`);
+ const fore=Z('fore','<rect x="12" y="98" width="12" height="38" rx="6"/>')+Z('fore','<rect x="96" y="98" width="12" height="38" rx="6"/>');
+ const front=head+Z('delt','<ellipse cx="28" cy="52" rx="11" ry="11"/>')+Z('delt','<ellipse cx="92" cy="52" rx="11" ry="11"/>')
+  +Z('chest','<rect x="34" y="45" width="25" height="26" rx="10"/>')+Z('chest','<rect x="61" y="45" width="25" height="26" rx="10"/>')
+  +Z('abs','<rect x="46" y="74" width="28" height="44" rx="10"/>')+Z('obl','<rect x="34" y="76" width="10" height="40" rx="5"/>')+Z('obl','<rect x="76" y="76" width="10" height="40" rx="5"/>')
+  +arms('bic')+fore+Z('quad','<rect x="35" y="122" width="23" height="64" rx="11"/>')+Z('quad','<rect x="62" y="122" width="23" height="64" rx="11"/>')
+  +B('<rect x="38" y="190" width="17" height="50" rx="8"/>')+B('<rect x="65" y="190" width="17" height="50" rx="8"/>');
+ const back=head+Z('trap','<polygon points="50,38 70,38 80,50 40,50"/>')+Z('rdelt','<ellipse cx="28" cy="54" rx="11" ry="11"/>')+Z('rdelt','<ellipse cx="92" cy="54" rx="11" ry="11"/>')
+  +Z('upb','<rect x="46" y="54" width="28" height="26" rx="8"/>')+Z('lat','<polygon points="34,60 46,66 46,100 38,92"/>')+Z('lat','<polygon points="86,60 74,66 74,100 82,92"/>')
+  +arms('tri')+fore.replace(/var\(--acc\)/g,'var(--mute)').replace(/fill-opacity="[^"]*"/g,'fill-opacity=".22"')
+  +Z('lowb','<rect x="46" y="84" width="28" height="30" rx="9"/>')+Z('glute','<ellipse cx="48" cy="130" rx="13" ry="13"/>')+Z('glute','<ellipse cx="72" cy="130" rx="13" ry="13"/>')
+  +Z('ham','<rect x="35" y="146" width="23" height="46" rx="10"/>')+Z('ham','<rect x="62" y="146" width="23" height="46" rx="10"/>')
+  +Z('calf','<rect x="38" y="196" width="17" height="46" rx="8"/>')+Z('calf','<rect x="65" y="196" width="17" height="46" rx="8"/>');
+ const sv=(b,l)=>`<div class="fg"><svg viewBox="0 0 120 250" height="180" aria-hidden="true">${b}</svg><span>${l}</span></div>`;
+ return sv(front,'Frente')+sv(back,'Espalda');
+}
 function info(id){const i=INFO[id];if(!i)return "";
- const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join("");
- return `<p class="meta" style="margin:6px 0"><b>Trabaja:</b> ${esc(i.m)}</p><div class="pills"><span>Ritmo: ${esc(i.t)}</span><span>${esc(i.r)}</span></div>
- <details class="acc"><summary>Ver técnica completa</summary><h4>Paso a paso</h4><ol>${li(i.p)}</ol><h4>Evitá</h4><ul>${li(i.e)}</ul><h4>Tu espalda</h4><p>${esc(i.l)} ${esc(i.f)}</p></details>`}
+ const li=a=>a.map(x=>`<li>${esc(x)}</li>`).join(""),z=ZONES[id]||[[],[]];
+ return `<div class="pills"><span>Ritmo: ${esc(i.t)}</span><span>${esc(i.r)}</span></div>
+ <div class="cw"><div class="cn">${['Músculos','Pasos','Evitá','Espalda'].map((x,k)=>`<button class="${k?'':'on'}" data-sl="${k}">${x}</button>`).join('')}</div>
+ <div class="car">
+ <div class="sl"><div class="fig">${figure(z[0],z[1])}</div><p class="leg"><span class="dot"></span>Principal <span class="dot s"></span>Secundario</p><p><b>Trabaja:</b> ${esc(i.m)}</p></div>
+ <div class="sl"><h4>Paso a paso</h4><ol>${li(i.p)}</ol></div>
+ <div class="sl"><h4>Evitá</h4><ul>${li(i.e)}</ul></div>
+ <div class="sl"><h4>Tu espalda</h4><p>${esc(i.l)}</p><p>${esc(i.f)}</p></div>
+ </div></div>`}
 const GROUP={pecho:'Pecho',hombros:'Hombros',piernas:'Piernas',brazos:'Brazos',espalda:'Espalda',core:'Core'};
 const CORE=[['plank','dead_bug'],['side','bird','pallof']];
 const PLAN3=[
@@ -364,6 +406,7 @@ function render(){
 document.addEventListener('click',e=>{
  const t=e.target.closest('button');if(!t)return;const d=t.dataset;
  if(d.th){S.p.theme=document.documentElement.dataset.theme==='dark'?'light':'dark';save();applyTheme();return}
+ if(d.sl!==undefined){const c=t.closest('.cw').querySelector('.car');c.scrollTo({left:+d.sl*c.clientWidth,behavior:'smooth'});return}
  if(d.tab){tab=d.tab;render();scrollTo(0,0);return}
  if(d.day!==undefined){S.p.d=+d.day;save();render();return}
  if(d.var){S.p.v++;save();render();return}
@@ -382,6 +425,7 @@ document.addEventListener('click',e=>{
  if(t.id==='im'){try{const o=JSON.parse(document.getElementById('bk').value);if(!o.p||!o.logs)throw 0;S=o;save();tab='hoy';render()}catch(x){document.getElementById('msg').textContent='Código inválido.'}}
 });
 document.addEventListener('input',e=>{const s=e.target.closest('.set');if(!s||!s.dataset.id)return;const D=DRAFT[today()+s.dataset.id];if(D&&D[+s.dataset.i]){D[+s.dataset.i][e.target.dataset.k]=e.target.value;e.target.style.borderColor=''}});
+document.addEventListener('scroll',e=>{const c=e.target;if(!c.classList||!c.classList.contains('car'))return;const k=Math.round(c.scrollLeft/(c.clientWidth||1));c.closest('.cw').querySelectorAll('.cn button').forEach((b,n)=>b.classList.toggle('on',n===k))},true);
 render();
 </script>
 </body>
